@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilan de Compétences — Nassim Cherdioui</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a2e;
+  --paper: #f5f3ee;
+  --paper2: #ede9e0;
+  --accent: #c8392b;
+  --accent2: #e8855c;
+  --gold: #c9a84c;
+  --muted: #7a7568;
+  --border: #d4cfc4;
+  --green: #2d6a4f;
+  --green-bg: #d8f3dc;
+  --blue: #1d3461;
+  --blue-bg: #dce8f7;
+  --orange: #b5541a;
+  --orange-bg: #fde8d8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* HEADER */
+.masthead {
+  background: var(--ink);
+  padding: 40px 48px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.masthead::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  border: 60px solid rgba(200,57,43,0.12);
+}
+.masthead::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 40%;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  border: 40px solid rgba(201,168,76,0.08);
+}
+.masthead-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+.masthead-eyebrow {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.masthead h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+.masthead h1 span { color: var(--gold); }
+.masthead-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.6;
+  max-width: 560px;
+}
+
+/* PROGRESS BAR */
+.progress-bar-wrap {
+  background: var(--ink);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 12px 48px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.progress-bar-wrap .pb-track {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-bar-wrap .pb-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.progress-bar-wrap .pb-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+}
+.progress-bar-wrap .pb-pct {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 700;
+  min-width: 36px;
+  text-align: right;
+}
+
+/* MAIN */
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 48px 80px;
+}
+
+/* CHAPTER */
+.chapter {
+  margin-bottom: 48px;
+  position: relative;
+}
+.chapter-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ink);
+}
+.chapter-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(200,57,43,0.08);
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+.chapter-meta { flex: 1; }
+.chapter-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.chapter-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* QUESTION */
+.q-block {
+  margin-bottom: 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.q-block:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.q-block.answered { border-color: #b8d8be; }
+
+.q-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px 0;
+}
+.q-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--paper2);
+  padding: 3px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.q-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.5;
+  flex: 1;
+}
+.q-hint {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  padding: 4px 16px 0 44px;
+  line-height: 1.4;
+}
+.q-input-wrap { padding: 10px 16px 14px; }
+
+textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--paper);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  padding: 10px 12px;
+  resize: vertical;
+  min-height: 72px;
+  transition: border-color 0.2s, background 0.2s;
+  line-height: 1.6;
+}
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+}
+textarea::placeholder { color: var(--muted); opacity: 0.6; }
+
+/* TAGS on textarea */
+.q-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0 16px 12px;
+}
+.q-tag {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.qt-cv { background: var(--green-bg); color: var(--green); }
+.qt-entretien { background: var(--blue-bg); color: var(--blue); }
+.qt-confiance { background: rgba(201,168,76,0.15); color: #7a5c00; }
+.qt-tech { background: var(--orange-bg); color: var(--orange); }
+
+/* IMPORTANCE INDICATOR */
+.q-importance {
+  display: flex;
+  gap: 3px;
+  padding-right: 4px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.q-importance span {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--border);
+}
+.q-importance.imp-3 span:nth-child(-n+3) { background: var(--accent); }
+.q-importance.imp-2 span:nth-child(-n+2) { background: var(--gold); }
+.q-importance.imp-1 span:nth-child(1) { background: var(--muted); }
+
+/* CALLOUT */
+.callout {
+  background: var(--paper2);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+.callout strong { color: var(--ink); }
+
+/* ACTIONS */
+.actions-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(245,243,238,0.95);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border);
+  padding: 14px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 200;
+}
+.actions-left { font-size: 12px; color: var(--muted); }
+.actions-left strong { color: var(--ink); }
+.actions-right { display: flex; gap: 10px; }
+
+.btn {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #a82e1f; }
+.btn-secondary { background: var(--ink); color: #fff; }
+.btn-secondary:hover { background: #2d2d45; }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+
+/* MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(26,26,46,0.7);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+.modal-head {
+  background: var(--ink);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-head h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.modal-close {
+  background: none; border: none;
+  color: rgba(255,255,255,0.5);
+  font-size: 22px; cursor: pointer; padding: 0 4px;
+}
+.modal-close:hover { color: #fff; }
+.modal-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+.modal-body pre {
+  font-family: 'DM Mono', 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--ink);
+  line-height: 1.9;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.modal-foot {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 10px;
+}
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 80px; right: 24px;
+  background: var(--green);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.3s;
+  pointer-events: none;
+  z-index: 400;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* LEGEND */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+  padding: 14px 18px;
+  background: var(--paper2);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.legend-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; color: var(--muted);
+}
+.legend-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+.ld-cv { background: var(--green); }
+.ld-entretien { background: var(--blue); }
+.ld-confiance { background: var(--gold); }
+.ld-tech { background: var(--orange); }
+
+@media (max-width: 640px) {
+  .masthead, main { padding-left: 20px; padding-right: 20px; }
+  .progress-bar-wrap, .actions-bar { padding-left: 20px; padding-right: 20px; }
+  .chapter-header { flex-wrap: wrap; }
+  .actions-bar { flex-direction: column; gap: 8px; }
+  .actions-right { width: 100%; }
+  .btn { flex: 1; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-eyebrow">Coaching emploi · Bilan complet</div>
+    <h1>Tout ce que tu as vécu<br>est une <span>munition</span>.</h1>
+    <div class="masthead-sub">Ce questionnaire est confidentiel et exhaustif. Il n'y a pas de bonne ou mauvaise réponse — chaque détail compte. Plus tu es précis, plus on pourra construire un dossier qui te ressemble vraiment.</div>
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <span class="pb-label">Progression</span>
+  <div class="pb-track"><div class="pb-fill" id="pbFill"></div></div>
+  <span class="pb-pct" id="pbPct">0%</span>
+  <span class="pb-label" id="pbCount">0 / 0</span>
+</div>
+
+<main>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot ld-cv"></span> Utile pour le CV</div>
+  <div class="legend-item"><span class="legend-dot ld-entretien"></span> Argument d'entretien</div>
+  <div class="legend-item"><span class="legend-dot ld-confiance"></span> Renforcer la confiance</div>
+  <div class="legend-item"><span class="legend-dot ld-tech"></span> Compétence technique</div>
+  <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
+    <span class="legend-dot" style="background:var(--accent);width:6px;height:6px;border-radius:50%"></span>
+    <span class="legend-dot" style="background:var(--accent);width:6px;height:6px;border-radius:50%"></span>
+    <span class="legend-dot" style="background:var(--accent);width:6px;height:6px;border-radius:50%"></span>
+    <span style="font-size:11px;color:var(--muted)"> = priorité haute</span>
+  </div>
+</div>
+
+<div id="questionnaire"></div>
+
+</main>
+
+<div class="actions-bar">
+  <div class="actions-left">
+    <strong id="answeredCount">0</strong> réponses renseignées sur <strong id="totalCount">0</strong>
+  </div>
+  <div class="actions-right">
+    <button class="btn btn-ghost" onclick="resetAll()">Réinitialiser</button>
+    <button class="btn btn-secondary" onclick="openModal('text')">Exporter texte</button>
+    <button class="btn btn-primary" onclick="openModal('json')">Exporter JSON</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="modalTitle">Export</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body"><pre id="modalContent"></pre></div>
+    <div class="modal-foot">
+      <button class="btn btn-primary" onclick="copyClipboard()">Copier</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Copié !</div>
+
+<script>
+const CHAPTERS = [
+  {
+    id: "identite",
+    num: "01",
+    title: "Identité & parcours global",
+    desc: "Ce que tu es, d'où tu viens, ce que tu cherches. La matière première du pitch.",
+    questions: [
+      { id: "pitch_spontane", label: "Si tu devais te présenter en 3 phrases à un recruteur que tu croises dans un ascenseur, tu dirais quoi ?", hint: "Ne réfléchis pas trop. Dis ce qui te vient naturellement.", tags: ["confiance","entretien"], imp: 3 },
+      { id: "fierte_perso", label: "Quelle est la chose dont tu es le plus fier dans ton parcours, même si ça te semble \"rien de spécial\" ?", hint: "Souvent la chose qu'on minimise est ce qui impressionne le plus les autres.", tags: ["confiance","entretien"], imp: 3 },
+      { id: "pourquoi_elec", label: "Pourquoi as-tu choisi l'électronique industrielle ? C'était une passion, un choix pragmatique, une rencontre ?", hint: "L'origine d'une vocation dit beaucoup sur la motivation profonde.", tags: ["entretien","confiance"], imp: 2 },
+      { id: "projet_pro", label: "Dans 3 ans, tu te vois faire quoi exactement ? Quel type de poste, quel type d'entreprise, quel type de journée type ?", hint: "Sois concret et honnête, même si c'est flou.", tags: ["entretien"], imp: 3 },
+      { id: "qualites_reconnues", label: "Quelles qualités tes collègues ou amis reconnaissent en toi spontanément ? (ce qu'ils diraient sans que tu demandes)", hint: "", tags: ["confiance","entretien"], imp: 2 },
+    ]
+  },
+  {
+    id: "spie_deep",
+    num: "02",
+    title: "SPIE — Creuser l'expérience terrain",
+    desc: "On a déjà les grandes lignes. Maintenant on cherche les détails qui font la différence.",
+    questions: [
+      { id: "spie_situation_critique", label: "Cite une panne ou incident particulièrement difficile que tu as résolu. Comment tu as procédé ? Combien de temps ça a pris ?", hint: "Les recruteurs adorent les exemples concrets avec un contexte, une action, un résultat.", tags: ["cv","entretien"], imp: 3 },
+      { id: "spie_innovation", label: "Est-ce qu'il t'est arrivé de trouver une façon plus rapide ou plus efficace de faire quelque chose ? D'améliorer une procédure, même informellement ?", hint: "", tags: ["cv","entretien","confiance"], imp: 3 },
+      { id: "spie_outils_logiciels", label: "Quels logiciels ou outils tu utilisais au quotidien chez SPIE ? (ITSM, gestion de parc, outils Airbus, remote desktop, imaging...)", hint: "Même les outils qui te semblent banals peuvent être valorisables.", tags: ["cv","tech"], imp: 2 },
+      { id: "spie_referent_detail", label: "Sur quels sujets précisément tu étais référent technique ? Les collègues venaient te voir pour quoi ?", hint: "", tags: ["cv","entretien","confiance"], imp: 3 },
+      { id: "spie_deploiement_detail", label: "Décris un déploiement de masse ou une migration auquel tu as participé. Combien de postes ? Sur quelle durée ? Quel était ton rôle exactement ?", hint: "Volume + rôle + durée = chiffres concrets pour le CV.", tags: ["cv","entretien"], imp: 3 },
+      { id: "spie_airbus_specificite", label: "Y avait-il des spécificités techniques ou procédurales liées au site Airbus que tu as dû apprendre ? (configurations particulières, sécurité réseau, outils propriétaires...)", hint: "", tags: ["cv","entretien","tech"], imp: 3 },
+      { id: "spie_urgences", label: "Est-ce qu'il y avait des astreintes, des interventions urgentes, des situations de stress ? Comment tu gérais ?", hint: "", tags: ["entretien","confiance"], imp: 2 },
+      { id: "spie_relation_client", label: "Décris une situation difficile avec un utilisateur / client. Comment tu l'as gérée ?", hint: "La gestion d'un utilisateur mécontent est une compétence très valorisée.", tags: ["entretien","confiance"], imp: 2 },
+      { id: "spie_autonomie", label: "À quel point tu étais autonome ? Est-ce qu'il y avait un chef technique sur place ou tu prenais des décisions seul ?", hint: "", tags: ["cv","entretien"], imp: 2 },
+      { id: "spie_formation_recue", label: "As-tu reçu des formations chez SPIE ? (techniques, sécurité, habilitations, certifications...)", hint: "Certifications, habilitations électriques, badges... tout compte.", tags: ["cv","tech"], imp: 2 },
+      { id: "spie_anglais_technique", label: "Tu avais accès à de la documentation technique en anglais ? Est-ce que tu la lisais / comprenais ?", hint: "", tags: ["cv","entretien"], imp: 1 },
+      { id: "spie_soudure_detail", label: "La soudure que tu faisais occasionnellement — sur quels composants ? Dans quel contexte ? Tu as un exemple précis ?", hint: "C'est rare et valorisant. On veut un exemple concret à raconter en entretien.", tags: ["cv","entretien","tech","confiance"], imp: 3 },
+      { id: "spie_stock_detail", label: "Comment tu gérais le stock de pièces ? Tu avais des fournisseurs attitrés ? Un budget ? Une logique de réassort ?", hint: "", tags: ["cv","entretien"], imp: 2 },
+      { id: "spie_chiffres_inconnus", label: "Y a-t-il d'autres chiffres dont tu te souviens ? (temps moyen de résolution, taux de satisfaction, nombre de postes déployés sur un projet...)", hint: "Les recruteurs adorent les chiffres. Même approximatifs.", tags: ["cv"], imp: 2 },
+    ]
+  },
+  {
+    id: "master_projets",
+    num: "03",
+    title: "Master UMMTO — Projets & réalisations concrètes",
+    desc: "Le master contient des réalisations concrètes souvent sous-estimées. On les exhume.",
+    questions: [
+      { id: "pfe_sujet", label: "Ton Projet de Fin d'Études (PFE) — c'était quoi exactement ? Sujet, contexte, entreprise ou labo ?", hint: "Le PFE est l'équivalent d'un stage ingénieur. Il a beaucoup de valeur.", tags: ["cv","entretien","tech"], imp: 3 },
+      { id: "pfe_techno", label: "Quelles technologies, logiciels ou équipements tu as utilisés dans ton PFE ?", hint: "Siemens, MATLAB, Arduino, capteurs, protocoles... tout ce que tu as touché.", tags: ["cv","tech"], imp: 3 },
+      { id: "pfe_resultat", label: "Qu'est-ce que tu as produit concrètement dans ton PFE ? (programme, maquette, rapport, système fonctionnel...)", hint: "", tags: ["cv","entretien","confiance"], imp: 3 },
+      { id: "mini_projet", label: "Le mini-projet intégrateur du S3 — tu t'en souviens ? C'était quoi ? Qu'est-ce que vous avez construit ?", hint: "Ces projets montrent la capacité à travailler en groupe sur un système complet.", tags: ["cv","entretien"], imp: 2 },
+      { id: "tp_marquants", label: "Quels TP t'ont le plus marqué pendant le master ? Sur quoi tu étais à l'aise ? Sur quoi tu as galéré ?", hint: "L'honnêteté sur les difficultés est aussi valorisable que les succès.", tags: ["tech","confiance"], imp: 2 },
+      { id: "api_pratique", label: "Tu as programmé des automates Siemens S7 en TP. Tu te souviens de ce que tu as fait ? Quel type de programme ? Quel procédé tu pilotais ?", hint: "", tags: ["cv","tech"], imp: 3 },
+      { id: "regulation_pratique", label: "En TP de commande de procédés, tu as réglé des boucles PID sur quoi ? (thermique, hydraulique, aéraulique...) Tu te souviens du protocole ?", hint: "", tags: ["cv","tech"], imp: 2 },
+      { id: "scada_pratique", label: "Tu as développé des interfaces HMI/SCADA en TP ? Sur quel logiciel ? Qu'est-ce que tu as fait concrètement ?", hint: "", tags: ["cv","tech"], imp: 2 },
+      { id: "electronique_puissance", label: "Est-ce que tu as fait de la pratique en électronique de puissance ? (variateurs, convertisseurs, montages...) Des souvenirs concrets ?", hint: "", tags: ["cv","tech"], imp: 2 },
+      { id: "projet_perso_univ", label: "En dehors des cours, est-ce que tu as fait des projets perso techniques à l'université ? (Arduino, Raspberry Pi, montages électroniques...)", hint: "", tags: ["cv","confiance","tech"], imp: 2 },
+      { id: "memoire_note", label: "Tu te souviens de ta mention / note de master ? Est-ce que tu as eu des félicitations sur un projet ou module en particulier ?", hint: "Même une appréciation verbale d'un prof peut être mentionnée.", tags: ["cv","confiance"], imp: 1 },
+      { id: "logiciels_univ", label: "Quels logiciels tu as utilisés pendant le master ? (MATLAB/Simulink, CAO, STEP7, TIA Portal, LabVIEW, autres...)", hint: "", tags: ["cv","tech"], imp: 2 },
+    ]
+  },
+  {
+    id: "competences_cachees",
+    num: "04",
+    title: "Compétences cachées & transversales",
+    desc: "Ce que tu sais faire sans y avoir pensé comme une compétence. C'est souvent là que se cachent les vrais atouts.",
+    questions: [
+      { id: "apprend_comment", label: "Quand tu dois apprendre quelque chose de nouveau techniquement, comment tu procèdes ? (YouTube, doc officielle, tâtonnement, demander...)", hint: "La façon dont on apprend est une compétence en soi.", tags: ["entretien","confiance"], imp: 2 },
+      { id: "dernier_appris", label: "Quelle est la dernière chose technique que tu as apprise par toi-même, en dehors du travail ou des études ?", hint: "", tags: ["entretien","confiance"], imp: 2 },
+      { id: "electronique_perso", label: "Est-ce que tu fais de l'électronique, de la programmation ou de la bidouille technique chez toi, pour le plaisir ?", hint: "", tags: ["cv","confiance","tech"], imp: 2 },
+      { id: "anglais_niveau", label: "Ton niveau d'anglais aujourd'hui — à l'écrit ? À l'oral ? Est-ce que tu lis de la documentation technique en anglais sans trop galérer ?", hint: "Être honnête. Les recruteurs testent en entretien.", tags: ["cv","entretien"], imp: 2 },
+      { id: "outils_numeriques", label: "Quels outils numériques tu maîtrises bien ? (Excel avancé, outils de gestion de projet, outils de dessin technique, bureautique...)", hint: "", tags: ["cv","tech"], imp: 1 },
+      { id: "permis_mobilite", label: "Tu as le permis ? Un véhicule ? Tu es mobile géographiquement (grands déplacements, découchés) ?", hint: "La mobilité est un vrai critère pour les PME automatisme qui font des mises en service sur site.", tags: ["cv","entretien"], imp: 3 },
+      { id: "gestion_stress", label: "Comment tu réagis sous pression ? Donne un exemple concret d'une situation stressante et comment tu l'as gérée.", hint: "", tags: ["entretien","confiance"], imp: 2 },
+      { id: "travail_equipe", label: "Décris une situation où tu as dû travailler avec des personnes difficiles ou un conflit d'équipe. Comment ça s'est terminé ?", hint: "", tags: ["entretien"], imp: 2 },
+      { id: "initiative", label: "Donne un exemple où tu as pris une initiative, fait quelque chose qu'on ne t'avait pas demandé et qui a eu un impact positif.", hint: "Même petit. C'est le signe d'un profil proactif.", tags: ["entretien","confiance"], imp: 3 },
+      { id: "organisation_perso", label: "Comment tu t'organises au quotidien ? Tu utilises des outils, des méthodes particulières ?", hint: "", tags: ["entretien"], imp: 1 },
+    ]
+  },
+  {
+    id: "parcours_perso",
+    num: "05",
+    title: "Parcours personnel & contexte de vie",
+    desc: "Le contexte humain de Nassim — ce qui forge le caractère et qui peut devenir un argument fort.",
+    questions: [
+      { id: "arrivee_france", label: "Tu es arrivé en France il y a 4 ans. Qu'est-ce qui t'a le plus surpris ou marqué dans l'adaptation au monde du travail français ?", hint: "L'adaptation interculturelle est une vraie compétence dans un environnement international.", tags: ["entretien","confiance"], imp: 2 },
+      { id: "langue_maternelle", label: "Quelles langues tu parles, et à quel niveau ? (arabe, kabyle, français, anglais, autres)", hint: "Le multilinguisme peut être un vrai atout selon les entreprises.", tags: ["cv"], imp: 1 },
+      { id: "valeurs_travail", label: "Qu'est-ce qui est important pour toi dans un travail, au-delà du salaire ? (ambiance, progression, sens, autonomie...)", hint: "Permet de mieux cibler les entreprises et de préparer la question 'pourquoi nous ?'", tags: ["entretien"], imp: 2 },
+      { id: "faiblesses_honnetes", label: "Si un recruteur te demande 'quelle est votre principale faiblesse ?' — tu réponds quoi honnêtement ?", hint: "Mieux vaut le préparer ici que d'être pris au dépourvu.", tags: ["entretien"], imp: 3 },
+      { id: "pourquoi_quitter_spie", label: "Comment tu expliques ton départ de SPIE à un recruteur ? Quelle version tu racontes ?", hint: "Ne jamais critiquer son employeur. On cherche la formulation positive.", tags: ["entretien"], imp: 3 },
+      { id: "salaire_pretention", label: "Quand on te demande tes prétentions salariales, tu réponds quoi ? Est-ce que tu sais négocier ?", hint: "", tags: ["entretien"], imp: 2 },
+      { id: "reconversion_message", label: "Comment tu expliques le fait de revenir vers l'électrotechnique après 4 ans de support informatique ? Ton pitch de reconversion.", hint: "C'est LA question de tous les entretiens. Il faut une réponse fluide et convaincante.", tags: ["entretien","confiance"], imp: 3 },
+    ]
+  },
+  {
+    id: "projets_futurs",
+    num: "06",
+    title: "Projets, veille & montée en compétences",
+    desc: "Ce que Nassim fait ou veut faire pour se remettre à niveau. Les recruteurs adorent les candidats qui n'attendent pas.",
+    questions: [
+      { id: "remise_niveau_actuelle", label: "Est-ce que tu te remets à niveau en ce moment ? (tutos, projets, formations en ligne, docs Siemens...) Si oui, sur quoi ?", hint: "", tags: ["cv","entretien","confiance"], imp: 3 },
+      { id: "projet_perso_maintenant", label: "Est-ce que tu as un projet technique en cours ou en tête à faire chez toi pour pratiquer ? (Arduino, automate, Raspberry Pi...)", hint: "Un projet perso sur GitHub ou en photo, c'est mieux que 10 lignes de CV.", tags: ["cv","entretien","confiance"], imp: 3 },
+      { id: "certif_envisagee", label: "Est-ce que tu envisages de passer une certification ? (habilitation électrique, Siemens, autres...)", hint: "", tags: ["cv","entretien"], imp: 2 },
+      { id: "veille_techno", label: "Est-ce que tu suis l'actualité technique de ton domaine ? (newsletters, YouTube, forums, LinkedIn...) Sur quoi ?", hint: "", tags: ["entretien","confiance"], imp: 1 },
+      { id: "enic_naric", label: "As-tu déjà déposé un dossier ENIC-NARIC pour la reconnaissance de ton diplôme algérien en France ?", hint: "Démarche obligatoire à lancer maintenant — délai de 2 à 3 mois.", tags: ["cv"], imp: 3 },
+      { id: "linkedin_etat", label: "Ton profil LinkedIn — il est à jour ? Tu as une photo pro ? Tu sais comment l'optimiser ?", hint: "", tags: ["cv"], imp: 2 },
+    ]
+  }
+];
+
+// State
+const answers = {};
+let totalQ = 0;
+
+CHAPTERS.forEach(c => c.questions.forEach(q => { answers[q.id] = ""; totalQ++; }));
+
+function buildUI() {
+  const container = document.getElementById("questionnaire");
+  document.getElementById("totalCount").textContent = totalQ;
+  document.getElementById("pbCount").textContent = `0 / ${totalQ}`;
+
+  CHAPTERS.forEach(ch => {
+    const div = document.createElement("div");
+    div.className = "chapter";
+    div.innerHTML = `
+      <div class="chapter-header">
+        <div class="chapter-num">${ch.num}</div>
+        <div class="chapter-meta">
+          <div class="chapter-title">${ch.title}</div>
+          <div class="chapter-desc">${ch.desc}</div>
+        </div>
+      </div>
+    `;
+
+    ch.questions.forEach((q, qi) => {
+      const tagHTML = q.tags.map(t => {
+        const cls = t === "cv" ? "qt-cv" : t === "entretien" ? "qt-entretien" : t === "confiance" ? "qt-confiance" : "qt-tech";
+        const lbl = t === "cv" ? "CV" : t === "entretien" ? "Entretien" : t === "confiance" ? "Confiance" : "Technique";
+        return `<span class="q-tag ${cls}">${lbl}</span>`;
+      }).join("");
+
+      const impClass = `imp-${q.imp}`;
+      const impDots = `<div class="q-importance ${impClass}"><span></span><span></span><span></span></div>`;
+
+      const block = document.createElement("div");
+      block.className = "q-block";
+      block.id = `qblock-${q.id}`;
+      block.innerHTML = `
+        <div class="q-header">
+          <div class="q-num">${ch.num}.${String(qi+1).padStart(2,"0")}</div>
+          <div class="q-label">${q.label}</div>
+          ${impDots}
+        </div>
+        ${q.hint ? `<div class="q-hint">💡 ${q.hint}</div>` : ""}
+        <div class="q-input-wrap">
+          <textarea id="ta-${q.id}" placeholder="Ta réponse ici..." rows="3" data-qid="${q.id}"></textarea>
+        </div>
+        <div class="q-tags">${tagHTML}</div>
+      `;
+      div.appendChild(block);
+    });
+
+    container.appendChild(div);
+  });
+
+  // Events
+  document.querySelectorAll("textarea").forEach(ta => {
+    ta.addEventListener("input", () => {
+      const qid = ta.dataset.qid;
+      answers[qid] = ta.value;
+      const block = document.getElementById(`qblock-${qid}`);
+      block.classList.toggle("answered", ta.value.trim().length > 0);
+      updateProgress();
+    });
+  });
+}
+
+function updateProgress() {
+  const filled = Object.values(answers).filter(v => v.trim().length > 0).length;
+  const pct = Math.round(filled / totalQ * 100);
+  document.getElementById("pbFill").style.width = pct + "%";
+  document.getElementById("pbPct").textContent = pct + "%";
+  document.getElementById("pbCount").textContent = `${filled} / ${totalQ}`;
+  document.getElementById("answeredCount").textContent = filled;
+}
+
+function buildText() {
+  let out = "BILAN DE COMPÉTENCES — NASSIM CHERDIOUI\n";
+  out += "=".repeat(50) + "\n\n";
+  CHAPTERS.forEach(ch => {
+    out += `\n${"─".repeat(50)}\n`;
+    out += `${ch.num}. ${ch.title.toUpperCase()}\n`;
+    out += `${"─".repeat(50)}\n\n`;
+    ch.questions.forEach((q, i) => {
+      const ans = answers[q.id] || "(non renseigné)";
+      out += `[${ch.num}.${String(i+1).padStart(2,"0")}] ${q.label}\n`;
+      out += `→ ${ans}\n\n`;
+    });
+  });
+  return out;
+}
+
+function buildJSON() {
+  const data = {
+    meta: { nom: "Nassim Cherdioui", date: new Date().toLocaleDateString("fr-FR"), completion: `${Object.values(answers).filter(v=>v.trim()).length}/${totalQ}` },
+    chapitres: CHAPTERS.map(ch => ({
+      id: ch.id,
+      titre: ch.title,
+      questions: ch.questions.map(q => ({
+        id: q.id,
+        question: q.label,
+        tags: q.tags,
+        priorite: q.imp,
+        reponse: answers[q.id] || ""
+      }))
+    }))
+  };
+  return JSON.stringify(data, null, 2);
+}
+
+function openModal(type) {
+  document.getElementById("modalTitle").textContent = type === "json" ? "EXPORT JSON" : "EXPORT TEXTE";
+  document.getElementById("modalContent").textContent = type === "json" ? buildJSON() : buildText();
+  document.getElementById("modalOverlay").classList.add("open");
+}
+function closeModal() { document.getElementById("modalOverlay").classList.remove("open"); }
+
+function copyClipboard() {
+  navigator.clipboard.writeText(document.getElementById("modalContent").textContent).then(() => {
+    const t = document.getElementById("toast");
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2500);
+  });
+}
+
+function resetAll() {
+  if (!confirm("Effacer toutes les réponses ?")) return;
+  document.querySelectorAll("textarea").forEach(ta => { ta.value = ""; answers[ta.dataset.qid] = ""; });
+  document.querySelectorAll(".q-block").forEach(b => b.classList.remove("answered"));
+  updateProgress();
+}
+
+document.getElementById("modalOverlay").addEventListener("click", e => { if (e.target === e.currentTarget) closeModal(); });
+
+buildUI();
+updateProgress();
+</script>
+</body>
+</html>
